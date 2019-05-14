@@ -2,6 +2,7 @@
 
 import sys
 from collections import Counter
+import socket
 
 #1
 def num_pacotes():
@@ -25,9 +26,11 @@ def top10_IP_src():
 			else:
 				src.append(x[11])
 	top=conta(src)
-	print('2) TOP 10 IPs fonte (IP, Quantidade de pacotes):')
+	print('2) TOP 10 IPs fonte (IP , Quantidade de pacotes):')
 	for i in range (0,10):
-		print(i+1,':', top[i])
+		ips=top[i][0]
+		ips=ips[4:]
+		print(i+1,'\b:', ips,',',top[i][1])
 	print()
 
 #3
@@ -44,9 +47,11 @@ def top10_IP_dst():
 			else:
 				dst.append(x[12])
 	top=conta(dst)
-	print('3) TOP 10 IPs destino (IP, Quantidade de pacotes):')
+	print('3) TOP 10 IPs destino (IP , Quantidade de pacotes):')
 	for i in range (0,10):
-		print(i+1,':', top[i])
+		ips=top[i][0]
+		ips=ips[4:]
+		print(i+1,'\b:', ips,',',top[i][1])
 	print()
 
 #4
@@ -69,9 +74,11 @@ def contagem_protocolos():
 				else:
 					prot.append(x[18])
 	top=conta2(prot)
-	print('4) (Protocolo, Quantidade de pacotes):')
+	print('4) Contagem de pacotes por protocolo (Protocolo , Quantidade de pacotes):')
 	for i in range (0,3):
-		print(top[i])
+		p=top[i][0]
+		p=p[6:]
+		print(p,',',top[i][1])
 	print()
 
 #5
@@ -94,9 +101,15 @@ def top10_portas():
 				else:
 					portas.append(x[20])
 	top=conta(portas)
-	print('5) Top 10 portas:')
+	print('5) Top 10 portas (Nome , Numero , Quantidade):')
 	for i in range (0,10):
-		print(i+1, ':', top[i])
+		somenteNum= top[i][0]
+		somenteNum = somenteNum[4:]
+		num = int(somenteNum)
+		try:
+			print(i+1, '\b:',socket.getservbyport(num),',',num,',',top[i][1])
+		except:
+			print(i+1, '\b:', '*PORTA NAO REGISTRADA*',',',num,',',top[i][1])
 	print()
 
 #Verificar top 10 IPs
